@@ -30,7 +30,7 @@ public class Main extends Application {
 	private ObservableList<Person> personData = FXCollections.observableArrayList();
 	private Connection conn;
 	private AnchorPane mainOverview;
-
+	//koment for komit
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
