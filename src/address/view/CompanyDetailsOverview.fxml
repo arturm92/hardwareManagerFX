@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.CompanyDetailsOverviewController">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Zarządzaj swoim profilem" />
+      <Label layoutX="14.0" layoutY="69.0" />
+      <Label layoutX="39.0" layoutY="107.0" text="Hasło:" />
+      <Label layoutX="40.0" layoutY="61.0" text="Login:" />
+      <Label layoutX="41.0" layoutY="149.0" text="Upawnienia:" />
+      <ComboBox layoutX="115.0" layoutY="145.0" prefWidth="150.0" />
+      <TextField layoutX="116.0" layoutY="103.0" />
+      <TextField layoutX="115.0" layoutY="57.0" />
+      <CheckBox layoutX="181.0" layoutY="183.0" mnemonicParsing="false" text="Pokaż hasło" />
+      <Button layoutX="181.0" layoutY="213.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Zmień hasło" />
+   </children>
+</AnchorPane>
