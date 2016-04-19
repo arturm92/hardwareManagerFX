@@ -6,13 +6,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.MainViewController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="700.0" minWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.MainViewController">
    <children>
-      <TabPane fx:id="tabPanel" prefHeight="500.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.topAnchor="25.0">
+      <TabPane fx:id="tabPanel" tabClosingPolicy="UNAVAILABLE" AnchorPane.topAnchor="25.0">
         <tabs>
           <Tab fx:id="detailsTab" text="Start">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="700.0" minWidth="700.0">
                      <children>
                         <Label layoutX="50.0" layoutY="49.0" text="Zalogowano !" />
                      </children>
@@ -21,28 +21,31 @@
           </Tab>
             <Tab fx:id="hardwareTab" text="Urządzenia">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="700.0" minWidth="700.0" />
               </content>
             </Tab>
             <Tab text="Zestawy">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="700.0" minWidth="700.0" />
               </content>
             </Tab>
-          <Tab fx:id="workersTab" text="Pracownicy" />
+          <Tab fx:id="workersTab" text="Pracownicy">
+               <content>
+                <AnchorPane minHeight="700.0" minWidth="700.0" />
+               </content></Tab>
             <Tab fx:id="reportsTab" text="Raporty">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
+               <content>
+                  <AnchorPane minHeight="700.0" minWidth="700.0" />
+               </content>
             </Tab>
             <Tab text="Historia">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="700.0" minWidth="700.0" />
               </content>
             </Tab>
             <Tab text="Struktura firmy">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="700.0" minWidth="700.0" />
               </content>
             </Tab>
         </tabs>
@@ -52,5 +55,6 @@
             <Font name="Arial Black" size="18.0" />
          </font>
       </Label>
+      <Label fx:id="userLabel" layoutX="601.0" prefHeight="27.0" prefWidth="99.0" text="Label" />
    </children>
 </AnchorPane>

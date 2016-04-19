@@ -1,5 +1,7 @@
 package address.view;
 
+import java.util.Map;
+
 import address.dao.DBConnection;
 import address.dao.DataSet;
 import address.messages.Messages;
@@ -65,6 +67,7 @@ public class HardwareItemOverviewController extends BaseController{
 	private ComboBox<String> combo3;
 
 	private ObservableList<HardwareItem> itemsDataset;
+	private Map<String,String> categoryMapping;
 	private HardwareItem item;
 	private Messages messages = new Messages();
 
@@ -128,19 +131,20 @@ public class HardwareItemOverviewController extends BaseController{
 	}
 
 	private void initializeBoxes() throws Exception {
-		ObservableList<String> categoryDataSet = DataSet.getCategoryDataSet();
-		ObservableList<String> ownerDataSet = DataSet.getOwnerDataSet();
-		combo1.setItems(categoryDataSet);
+		categoryMapping = DataSet.getCategoryDataSetMap();
+		ObservableList<String> categoryCombo = DataSet.getCategoryDataSet();
+		ObservableList<String> ownerDataSet = DataSet.getOwnerDataSet(); 
+		combo1.setItems(categoryCombo);
 		combo2.setItems(ownerDataSet);
 		combo3.setItems(ownerDataSet);
-
+		
 	}
 
 	@FXML
 	private void btnNew() {
 		setVisible(true);
-		item = new HardwareItem();
 		clear();
+		item = new HardwareItem();
 	}
 
 	private void clear() {
@@ -155,6 +159,11 @@ public class HardwareItemOverviewController extends BaseController{
 
 	@FXML
 	private void btnAccept() {
+		item.setName(text1.getText());
+		item.setValue(Integer.valueOf(text2.getText()));
+		item.setCategoryId(categoryMapping.get(combo1.getValue()));
+		item.setOwnerId(Integer.valueOf(combo2.getValue()));
+		item.setDescription(area1.getText());
 		if (item != null) {
 			if (item.getId() != 0){
 				if (DBConnection.updateItem(item) > 0) {

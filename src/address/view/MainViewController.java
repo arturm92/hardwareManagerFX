@@ -1,6 +1,6 @@
 package address.view;
 
-import address.model.Company;
+import address.model.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -20,14 +20,21 @@ public class MainViewController extends BaseController {
 	private Tab hardwareTab;
 	@FXML
 	private Tab reportsTab;
+	@FXML
+	private Label userLabel;
 
+	private Worker worker = new Worker();
 
-	private Company company;
-
-	public void setContext(Company company) {
-		this.company = company;
-		this.companyLabel.setText("Witaj w HardwareManager");
-		initialize();
+	public void setContext(Worker worker) {
+		try{
+			this.worker = worker;
+			this.userLabel.setText(worker.getFirstName() + " " + worker.getLastName());
+			this.companyLabel.setText("Witaj w HardwareManager");
+			initialize();	
+		}catch (Exception e){
+			
+		}
+		
 
 	}
 

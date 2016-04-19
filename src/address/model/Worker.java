@@ -10,6 +10,7 @@ public class Worker {
 	private Integer job;
 	private Integer room;
 	private Integer address;
+	private Integer role;
 
 	public Integer getId() {
 		return id;
@@ -58,6 +59,12 @@ public class Worker {
 	}
 	public void setAddress(Integer address) {
 		this.address = address;
+	}
+	public Integer getRole() {
+		return role;
+	}
+	public void setRole(Integer role) {
+		this.role = role;
 	}
 
 }

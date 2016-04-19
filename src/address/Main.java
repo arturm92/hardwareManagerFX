@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.sql.Connection;
 
 import address.dao.DBConnection;
-import address.model.Company;
 import address.model.Person;
+import address.model.Worker;
 import address.view.CompanyDetailsOverviewController;
 import address.view.MainViewController;
 import address.view.StartViewController;
@@ -38,6 +38,7 @@ public class Main extends Application {
 		init();
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 
@@ -92,18 +93,18 @@ public class Main extends Application {
 		}
 	}
 
-	public void showMainView() {
+	public void showMainView(Worker worker) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/MainView.fxml"));
 			mainOverview = (AnchorPane) loader.load();
 			rootLayout.setBottom(mainOverview);
-
+			
 			MainViewController controller = loader.getController();
 			controller.setMain(this);
-			controller.setContext(null);
-
-			primaryStage.show();
+			controller.setContext(worker);
+			//primaryStage.setFullScreen(true);
+			//primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

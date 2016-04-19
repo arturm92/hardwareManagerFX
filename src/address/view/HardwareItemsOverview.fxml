@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.HardwareItemOverviewController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.HardwareItemOverviewController">
    <children>
       <Label layoutX="21.0" layoutY="14.0" text="SPRZĘT KOMPUTEROWY" />
       <TableView fx:id="itemsTable" layoutX="21.0" layoutY="40.0" prefHeight="200.0" prefWidth="650.0">
@@ -23,9 +23,9 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="btnDelete" layoutX="538.0" layoutY="421.0" mnemonicParsing="false" onAction="#btnDelete" prefHeight="25.0" prefWidth="75.0" text="USUŃ" />
-      <Button fx:id="btnAccept" layoutX="463.0" layoutY="421.0" mnemonicParsing="false" onAction="#btnAccept" prefHeight="25.0" prefWidth="75.0" text="AKCEPTUJ" />
-      <Button fx:id="btnNew" layoutX="388.0" layoutY="421.0" mnemonicParsing="false" onAction="#btnNew" prefHeight="25.0" prefWidth="75.0" text="NOWY" />
+      <Button fx:id="btnDelete" layoutX="459.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnDelete" prefHeight="25.0" prefWidth="75.0" text="USUŃ" />
+      <Button fx:id="btnAccept" layoutX="384.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnAccept" prefHeight="25.0" prefWidth="75.0" text="AKCEPTUJ" />
+      <Button fx:id="btnNew" layoutX="309.0" layoutY="268.0" mnemonicParsing="false" onAction="#btnNew" prefHeight="25.0" prefWidth="75.0" text="NOWY" />
       <Label layoutX="21.0" layoutY="252.0" text="SZCZEGÓŁY:" />
       <Label fx:id="label1" layoutX="41.0" layoutY="267.0" text="Nazwa:">
          <padding>

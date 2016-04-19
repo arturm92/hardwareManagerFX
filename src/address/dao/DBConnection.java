@@ -171,7 +171,7 @@ public class DBConnection {
 			}
 			if (seqNumber != 0) {
 
-				String query = "INSERT INTO hardware_items(\"ID\", \"OWNER_ID\", \"KIT_ID\", \"DESCRIPTION\", \"VALUE\", \"CATEGORY\", \"NAME\") VALUES ("
+				String query = "INSERT INTO hardware_items(\"ID\", \"OWNER_ID\", \"KIT_ID\", \"DESCRIPTION\", \"VALUE\", \"CATEGORY_ID\", \"NAME\") VALUES ("
 						+ seqNumber + "," + newItem.getOwnerId() + "," + newItem.getKitId() + ","
 						+ newItem.getDescription() + "," + newItem.getValue() + ",'" + newItem.getCategoryId() + "','"
 						+ newItem.getName() + "')";
@@ -209,13 +209,32 @@ public class DBConnection {
 		while (rs.next()) {
 			String firstName = (rs.getString("imie"));
 			String lastName = (rs.getString("nazwisko"));
-			String password = (rs.getString("password"));
-			String worker = firstName + lastName + password;
+			//String password = (rs.getString("password"));
+			String worker = firstName + " " +lastName;// + password;
 			returnList.add(worker);
 		}
 		return returnList;
 	}
 
-
+	public static Worker checkLoginProperties(String user, String password) throws Exception {
+		con = DBConnection.createConnection();
+		Statement stmt = con.createStatement();
+		String[] userData = user.split(" ");
+		String query = "select * from workers where \"IMIE\" = '"+userData[0] +"' and \"NAZWISKO\"= '"+userData[1]+"' and  \"PASSWORD\" = '"+password+"'";;
+		ResultSet rs = stmt.executeQuery(query);
+		while (rs.next()) {
+			Worker worker = new Worker();
+			if (rs.getString("id") != null){
+				worker.setId(Integer.valueOf(rs.getString("id")));
+				worker.setFirstName(rs.getString("imie"));
+				worker.setLastName(rs.getString("nazwisko"));
+				worker.setRole(Integer.valueOf(rs.getString("rola")));
+				return worker;
+			}else{
+				return null;
+			}
+		}
+		return null;
+	}
 
 }
