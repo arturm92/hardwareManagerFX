@@ -19,15 +19,11 @@ public class StartViewController extends BaseController {
 	private TextField password;
 	@FXML
 	private javafx.scene.control.Button enterButton;
-	@FXML
-	private FlowPane mainMenu;
-
 	private Messages messages = new Messages();
 	private Worker loggedWorker = new Worker();
 	
 	@FXML
 	public void initialize() throws Exception {
-		mainMenu.setDisable(true);
 		initWorkerDataset();
 	}
 
@@ -41,9 +37,8 @@ public class StartViewController extends BaseController {
 		String user = worker.getValue();
 		String pass = password.getText();
 		if (checkLogin(user, pass)) {
-			Info.createInfo(AlertType.CONFIRMATION, main.getPrimaryStage(), "LOGIN", "LOGIN", messages.getLoginOk());
-			mainMenu.setDisable(false);
-			main.showMainView(loggedWorker);
+			//Info.createInfo(AlertType.CONFIRMATION, main.getPrimaryStage(), "LOGIN", "LOGIN", messages.getLoginOk());
+			main.loginUser(loggedWorker);
 		} else {
 			Info.createInfo(AlertType.ERROR, main.getPrimaryStage(), "LOGIN", "LOGIN", messages.getLoginError());
 		}

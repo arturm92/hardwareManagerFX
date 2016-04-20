@@ -39,9 +39,9 @@ public class MainViewController extends BaseController {
 	}
 
 	private void initialize() {
-		main.showWorkerOverview(workersTab);
-		main.showCompanyDetailsOverview(detailsTab);
-		main.showHardwareOverview(hardwareTab);
+		//main.showWorkerOverview(workersTab);
+	
+		//main.showHardwareOverview(hardwareTab);
 	}
 
 

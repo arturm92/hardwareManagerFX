@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.CompanyDetailsOverviewController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.ProfileOverviewController">
    <children>
       <Label layoutX="14.0" layoutY="14.0" text="Zarządzaj swoim profilem" />
       <Label layoutX="14.0" layoutY="69.0" />
@@ -20,4 +21,7 @@
       <CheckBox layoutX="181.0" layoutY="183.0" mnemonicParsing="false" text="Pokaż hasło" />
       <Button layoutX="181.0" layoutY="213.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Zmień hasło" />
    </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </AnchorPane>
