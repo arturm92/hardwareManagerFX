@@ -10,7 +10,7 @@ import address.model.Worker;
 import address.view.MenuBarController;
 import address.view.ProfileOverviewController;
 import address.view.StartViewController;
-import address.view.HardwareItemOverviewController;
+import address.view.HardwareDeviceOverviewController;
 import address.view.RootLayoutController;
 import address.view.WorkerOverviewController;
 import javafx.application.Application;
@@ -31,7 +31,6 @@ public class Main extends Application {
 	private MenuBarController menuBarController;
 	private Worker worker;
 	private Connection conn;
-	private AnchorPane mainOverview;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -135,7 +134,7 @@ public class Main extends Application {
 		}
 	}
 
-	public void showHardwareOverview() {
+/*	public void showHardwareOverview() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/HardwareItemsOverview.fxml"));
@@ -143,6 +142,23 @@ public class Main extends Application {
 			rootLayout.getItems().setAll(menuBar, hardwareItemsOverview);
 
 			HardwareItemOverviewController controller = loader.getController();
+			controller.setMain(this);
+			controller.initialize();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}*/
+	
+	public void showHardwareDeviceOverview() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/HardwareDeviceOverview.fxml"));
+			AnchorPane hardwareDeviceOverview = (AnchorPane) loader.load();
+			rootLayout.getItems().setAll(menuBar, hardwareDeviceOverview);
+
+			HardwareDeviceOverviewController controller = loader.getController();
 			controller.setMain(this);
 			controller.initialize();
 

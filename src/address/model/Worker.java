@@ -3,8 +3,7 @@ package address.model;
 public class Worker {
 
 	private Integer id;
-	private String firstName;
-	private String lastName;
+	private String name;
 	private Integer section;
 	private Integer masterSection;
 	private Integer job;
@@ -18,17 +17,11 @@ public class Worker {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public Integer getSection() {
 		return section;

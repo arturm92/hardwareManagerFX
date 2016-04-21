@@ -28,7 +28,7 @@ public class MainViewController extends BaseController {
 	public void setContext(Worker worker) {
 		try{
 			this.worker = worker;
-			this.userLabel.setText(worker.getFirstName() + " " + worker.getLastName());
+			this.userLabel.setText(worker.getName());
 			this.companyLabel.setText("Witaj w HardwareManager");
 			initialize();	
 		}catch (Exception e){

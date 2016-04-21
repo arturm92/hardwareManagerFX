@@ -1,4 +1,4 @@
-package address.view;
+/*package address.view;
 
 import java.util.Map;
 
@@ -88,7 +88,7 @@ public class HardwareItemOverviewController extends BaseController{
 			categoryColumn.setCellValueFactory(new PropertyValueFactory<HardwareItem, String>("categoryDesc"));
 			valueColumn.setCellValueFactory(new PropertyValueFactory<HardwareItem, String>("value"));
 			descriptionColumn.setCellValueFactory(new PropertyValueFactory<HardwareItem, String>("description"));
-			itemsDataset = (ObservableList<HardwareItem>) DBConnection.initHardwareItemsData();
+			//itemsDataset = (ObservableList<HardwareItem>) DBConnection.initHardwareItemsData();
 			itemsTable.setItems(itemsDataset);
 			itemsTable.getSelectionModel().selectedItemProperty()
 					.addListener((observableValue, oldValue, newValue) -> {
@@ -131,9 +131,9 @@ public class HardwareItemOverviewController extends BaseController{
 	}
 
 	private void initializeBoxes() throws Exception {
-		categoryMapping = DataSet.getCategoryDataSetMap();
+		//categoryMapping = DataSet.getCategoryDataSetMap();
 		ObservableList<String> categoryCombo = DataSet.getCategoryDataSet();
-		ObservableList<String> ownerDataSet = DataSet.getOwnerDataSet(); 
+		//ObservableList<String> ownerDataSet = DataSet.getOwnerDataSet(); 
 		combo1.setItems(categoryCombo);
 		combo2.setItems(ownerDataSet);
 		combo3.setItems(ownerDataSet);
@@ -196,7 +196,7 @@ public class HardwareItemOverviewController extends BaseController{
 
 	private void reloadTableView() {
 		try {
-			itemsDataset = (ObservableList<HardwareItem>) DBConnection.initHardwareItemsData();
+			//itemsDataset = (ObservableList<HardwareItem>) DBConnection.initHardwareItemsData();
 			itemsTable.setItems(itemsDataset);
 			clear();
 		} catch (Exception e) {
@@ -205,3 +205,4 @@ public class HardwareItemOverviewController extends BaseController{
 
 	}
 }
+*/

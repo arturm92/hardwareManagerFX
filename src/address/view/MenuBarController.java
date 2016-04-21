@@ -24,7 +24,7 @@ public class MenuBarController extends BaseController {
 	}
 
 	public void setUserInBar() {
-		userInfoButton.setText("logged" + main.getWorker().getLastName());
+		userInfoButton.setText("logged" + main.getWorker().getName());
 		userInfoButton.setDisable(true);
 	}
 	
@@ -40,6 +40,6 @@ public class MenuBarController extends BaseController {
 	
 	@FXML
 	public void goToHardwareOverview(){
-		main.showHardwareOverview();
+		main.showHardwareDeviceOverview();
 	}
 }

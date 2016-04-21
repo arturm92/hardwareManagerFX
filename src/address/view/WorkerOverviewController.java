@@ -2,14 +2,17 @@ package address.view;
 
 import address.dao.DBConnection;
 import address.messages.Messages;
+import address.model.HardwareDevice;
 import address.model.Worker;
 import address.util.Info;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -20,9 +23,7 @@ public class WorkerOverviewController extends BaseController {
 	@FXML
 	private TableView<Worker> workersTable;
 	@FXML
-	private TableColumn<Worker, String> workerFirstNameColumn;
-	@FXML
-	private TableColumn<Worker, String> workerLastNameColumn;
+	private TableColumn<Worker, String> workerNameColumn;
 	@FXML
 	private TableColumn<Worker, String> workerSectionColumn;
 	@FXML
@@ -36,8 +37,6 @@ public class WorkerOverviewController extends BaseController {
 	@FXML
 	private Label label2;
 	@FXML
-	private Label label3;
-	@FXML
 	private Label label4;
 	@FXML
 	private Label label5;
@@ -47,8 +46,6 @@ public class WorkerOverviewController extends BaseController {
 	private Label label7;
 	@FXML
 	private TextField text1;
-	@FXML
-	private TextField text2;
 	@FXML
 	private Button btnNew;
 	@FXML
@@ -63,22 +60,23 @@ public class WorkerOverviewController extends BaseController {
 	private ComboBox<String> combo3;
 	@FXML
 	private ComboBox<String> combo4;
+	@FXML
+	private ListView<HardwareDevice> listView;
+	
 	private ObservableList<Worker> workersDataset;
 	private Worker worker;
 	private Messages messages = new Messages();
+	private ObservableList<HardwareDevice> data;;
 
 	public void initialize() {
 		initializeWorkers();
 		initializeBoxes();
 		btnNew.setVisible(true);
-		btnAccept.setVisible(true);
-		btnDelete.setVisible(true);
 	}
 
 	private void initializeWorkers() {
 		try {
-			workerFirstNameColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("firstName"));
-			workerLastNameColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("lastName"));
+			workerNameColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("name"));
 			workerSectionColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("section"));
 			workerJobColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("job"));
 			workerMasterSectionColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("masterSection"));
@@ -94,34 +92,46 @@ public class WorkerOverviewController extends BaseController {
 						}
 					});
 			setVisible(false);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void setDetails() {
-		text1.setText(worker.getFirstName());
-		text2.setText(worker.getLastName());
+		text1.setText(worker.getName());
 		combo1.setValue(worker.getSection().toString());
 		combo2.setValue(worker.getJob().toString());
 		combo3.setValue(worker.getMasterSection().toString());
 		combo4.setValue(worker.getRoom().toString());
+		setHardwareDeviceForWorker();
+	}
+
+	private void setHardwareDeviceForWorker() {
+		try {
+			data = DBConnection.getHardwareDeviceDataForUser(worker.getId());
+			listView.setItems(data);
+			 listView.setEditable(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void setVisible(boolean visible) {
 		label1.setVisible(visible);
 		label2.setVisible(visible);
-		label3.setVisible(visible);
 		label4.setVisible(visible);
 		label5.setVisible(visible);
 		label6.setVisible(visible);
 		label7.setVisible(visible);
 		text1.setVisible(visible);
-		text2.setVisible(visible);
 		combo1.setVisible(visible);
 		combo2.setVisible(visible);
 		combo3.setVisible(visible);
 		combo4.setVisible(visible);
+		listView.setDisable(visible);
+		btnAccept.setVisible(visible);
+		btnDelete.setVisible(visible);
 	}
 
 	private void initializeBoxes() {
@@ -141,19 +151,16 @@ public class WorkerOverviewController extends BaseController {
 
 	private void clear() {
 		text1.setText("");
-		text2.setText("");
 		combo1.setValue("");
 		combo2.setValue("");
 		combo3.setValue("");
 		combo4.setValue("");
-		worker = null;
 	}
 
 	@FXML
 	private void btnAccept() {
 		if (worker != null) {
-			worker.setFirstName(text1.getText());
-			worker.setLastName(text2.getText());
+			worker.setName(text1.getText());
 			worker.setSection(Integer.valueOf(combo1.getValue()));
 			worker.setJob(Integer.valueOf(combo2.getValue()));
 			worker.setRoom(Integer.valueOf(combo3.getValue()));
