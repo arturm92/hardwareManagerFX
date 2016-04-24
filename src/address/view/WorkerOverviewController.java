@@ -23,6 +23,14 @@ public class WorkerOverviewController extends BaseController {
 	@FXML
 	private TableView<Worker> workersTable;
 	@FXML
+	private TableView<HardwareDevice> deviceForWorkerTable;
+	@FXML
+	private TableColumn<HardwareDevice, String> deviceCodeColumn;
+	@FXML
+	private TableColumn<HardwareDevice, String> deviceModelColumn;
+	@FXML
+	private TableColumn<HardwareDevice, String> deviceTypeColumn;
+	@FXML
 	private TableColumn<Worker, String> workerNameColumn;
 	@FXML
 	private TableColumn<Worker, String> workerSectionColumn;
@@ -60,13 +68,11 @@ public class WorkerOverviewController extends BaseController {
 	private ComboBox<String> combo3;
 	@FXML
 	private ComboBox<String> combo4;
-	@FXML
-	private ListView<HardwareDevice> listView;
-	
+
 	private ObservableList<Worker> workersDataset;
+	private ObservableList<HardwareDevice> deviceForWorkerDataset;
 	private Worker worker;
 	private Messages messages = new Messages();
-	private ObservableList<HardwareDevice> data;;
 
 	public void initialize() {
 		initializeWorkers();
@@ -109,9 +115,11 @@ public class WorkerOverviewController extends BaseController {
 
 	private void setHardwareDeviceForWorker() {
 		try {
-			data = DBConnection.getHardwareDeviceDataForUser(worker.getId());
-			listView.setItems(data);
-			 listView.setEditable(true);
+			deviceCodeColumn.setCellValueFactory(new PropertyValueFactory<HardwareDevice, String>("code"));
+			deviceTypeColumn.setCellValueFactory(new PropertyValueFactory<HardwareDevice, String>("typeName"));
+			deviceModelColumn.setCellValueFactory(new PropertyValueFactory<HardwareDevice, String>("modelName"));
+			deviceForWorkerDataset = (ObservableList<HardwareDevice>) DBConnection.getHardwareDeviceDataForWorker(worker.getId());
+			deviceForWorkerTable.setItems(deviceForWorkerDataset);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -129,9 +137,9 @@ public class WorkerOverviewController extends BaseController {
 		combo2.setVisible(visible);
 		combo3.setVisible(visible);
 		combo4.setVisible(visible);
-		listView.setDisable(visible);
 		btnAccept.setVisible(visible);
 		btnDelete.setVisible(visible);
+		deviceForWorkerTable.setVisible(visible);
 	}
 
 	private void initializeBoxes() {

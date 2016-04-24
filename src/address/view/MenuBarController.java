@@ -2,6 +2,7 @@ package address.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 public class MenuBarController extends BaseController {
@@ -9,7 +10,7 @@ public class MenuBarController extends BaseController {
 	@FXML
 	private AnchorPane menuBar;
 	@FXML
-	private Button userInfoButton;
+	private Label userInfo;
 
 	public MenuBarController() {
 		// initialize();
@@ -24,8 +25,8 @@ public class MenuBarController extends BaseController {
 	}
 
 	public void setUserInBar() {
-		userInfoButton.setText("logged" + main.getWorker().getName());
-		userInfoButton.setDisable(true);
+		userInfo.setText("logged" + main.getWorker().getName());
+		userInfo.setDisable(true);
 	}
 	
 	@FXML

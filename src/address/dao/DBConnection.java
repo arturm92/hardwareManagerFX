@@ -275,7 +275,7 @@ public class DBConnection {
 
 	}
 
-	public static ObservableList<HardwareDevice> getHardwareDeviceDataForUser(int ownerId) throws Exception {
+	public static ObservableList<HardwareDevice> getHardwareDeviceDataForWorker(int ownerId) throws Exception {
 			ObservableList<HardwareDevice> returnList = FXCollections.observableArrayList();
 			if (con == null) {
 				con = createConnection();
