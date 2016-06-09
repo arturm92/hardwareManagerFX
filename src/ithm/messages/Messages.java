@@ -1,4 +1,4 @@
-package address.messages;
+package ithm.messages;
 
 public class Messages {
 

@@ -1,4 +1,4 @@
-package address.util;
+package ithm.util;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

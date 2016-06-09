@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="675.0" scaleShape="false" snapToPixel="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.StartViewController">
+<AnchorPane cacheShape="false" centerShape="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="675.0" scaleShape="false" snapToPixel="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ithm.view.StartViewController">
    <children>
       <Group layoutX="265.0" layoutY="117.0">
          <children>
@@ -28,7 +28,7 @@
                   <Insets left="5.0" />
                </padding>
             </Label>
-            <ComboBox fx:id="worker" layoutX="106.0" layoutY="24.0" prefHeight="25.0" prefWidth="179.0">
+            <ComboBox fx:id="workerInputAuto" layoutX="106.0" layoutY="24.0" prefHeight="25.0" prefWidth="179.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
@@ -63,7 +63,7 @@
       </Label>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="96.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../resources/welcome.png" />
+            <Image url="@../resources/welcome.png" />
          </image>
       </ImageView>
    </children>

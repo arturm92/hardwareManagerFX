@@ -1,4 +1,4 @@
-package address.model;
+package ithm.model;
 
 public class Company {
 

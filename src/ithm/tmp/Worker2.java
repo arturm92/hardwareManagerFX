@@ -1,6 +1,6 @@
-package address.model;
+package ithm.tmp;
 
-public class Worker {
+public class Worker2 {
 
 	private Integer id;
 	private String name;

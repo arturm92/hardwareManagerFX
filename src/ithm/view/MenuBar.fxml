@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="menuBar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ithm.view.MenuBarController">
+   <children>
+      <HBox fx:id="menuBar2" alignment="CENTER_LEFT" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Button fx:id="myDevices" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToMyHardwareOverview" prefHeight="80.0" prefWidth="115.0" text="Moje zasoby">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <graphic>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/admin.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="myHistory" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToHistoryOverview" prefHeight="80.0" prefWidth="115.0" text="Moja historia">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <graphic>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/userHistory.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="reports" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToReportOverview" prefHeight="80.0" prefWidth="115.0" text="Raporty">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <graphic>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/Logistics.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="allDevices" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToHardwareOverview" prefHeight="80.0" prefWidth="115.0" text="Drzewo zasobów">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <font>
+                  <Font name="Arial Bold" size="10.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/devices.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="users" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToWorkersOverview" prefHeight="80.0" prefWidth="115.0" text="Użytkownicy">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <graphic>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/users.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="giveDevice" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToGiveDeviceOverview" prefHeight="80.0" prefWidth="115.0" text="Przydziel zasób">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <graphic>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/giveDevice.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="getDelivery" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToDeliveryOverview" prefHeight="80.0" prefWidth="115.0" text="Odbierz dostawę">
+               <graphic>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/warehouse.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <font>
+                  <Font name="Arial Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="80.0" prefWidth="115.0" text="Panel administratora">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </HBox.margin>
+               <graphic>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/administrator.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Arial Bold" size="10.0" />
+               </font>
+            </Button>
+            <Button fx:id="myProfile" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToProfileOverview" prefHeight="80.0" prefWidth="115.0" text="Mój profil">
+               <graphic>
+                  <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/settings.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Arial Bold" size="10.0" />
+               </font>
+            </Button>
+            <VBox prefHeight="91.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="userInfo" alignment="TOP_CENTER" contentDisplay="RIGHT" prefWidth="300.0" />
+                  <Label />
+                  <DatePicker fx:id="calendar" editable="false" pickOnBounds="false" prefHeight="25.0" prefWidth="300.0">
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor>
+                  </DatePicker>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

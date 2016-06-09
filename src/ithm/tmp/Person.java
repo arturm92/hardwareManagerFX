@@ -1,4 +1,4 @@
-package address.model;
+package ithm.tmp;
 import java.time.LocalDate;
 
 import javafx.beans.property.IntegerProperty;

@@ -1,10 +1,12 @@
-package address.view;
+package ithm.view;
 
-import address.dao.DBConnection;
-import address.messages.Messages;
-import address.model.HardwareDevice;
-import address.model.Worker;
-import address.util.Info;
+import ithm.Main;
+import ithm.dao.DBConnection;
+import ithm.messages.Messages;
+import ithm.model.User;
+import ithm.model.Worker;
+import ithm.tmp.HardwareDevice;
+import ithm.util.Info;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,11 +19,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
-public class WorkerOverviewController extends BaseController {
+public class WorkerOverviewController {
 
 	@FXML
-	private TableView<Worker> workersTable;
+	private TableView<User> workersTable;
 	@FXML
 	private TableView<HardwareDevice> deviceForWorkerTable;
 	@FXML
@@ -30,16 +35,17 @@ public class WorkerOverviewController extends BaseController {
 	private TableColumn<HardwareDevice, String> deviceModelColumn;
 	@FXML
 	private TableColumn<HardwareDevice, String> deviceTypeColumn;
+	
 	@FXML
-	private TableColumn<Worker, String> workerNameColumn;
+	private TableColumn<User, String> numColumn;
 	@FXML
-	private TableColumn<Worker, String> workerSectionColumn;
+	private TableColumn<User, String> userNameColumn;
 	@FXML
-	private TableColumn<Worker, String> workerJobColumn;
+	private TableColumn<User, String> storageColumn;
 	@FXML
-	private TableColumn<Worker, String> workerMasterSectionColumn;
+	private TableColumn<User, String> personalNumberColumn;
 	@FXML
-	private TableColumn<Worker, String> workerRoomColumn;
+	private TableColumn<User, String> userDevicesColumn;
 	@FXML
 	private Label label1;
 	@FXML
@@ -68,57 +74,114 @@ public class WorkerOverviewController extends BaseController {
 	private ComboBox<String> combo3;
 	@FXML
 	private ComboBox<String> combo4;
+	@FXML
+	private Pane panel;
+	@FXML
+	private ImageView plus;
+	@FXML
+	private ImageView minus;
+	@FXML
+	private Button userDevices;
+	@FXML
+	private Button userHistory;
+	
 
-	private ObservableList<Worker> workersDataset;
+	
+	private ObservableList<User> workersDataset;
 	private ObservableList<HardwareDevice> deviceForWorkerDataset;
 	private Worker worker;
+	private User user;
 	private Messages messages = new Messages();
-
-	public void initialize() {
+	private Main main;
+	private boolean minimalize;
+	
+	public void init() {
 		initializeWorkers();
-		initializeBoxes();
-		btnNew.setVisible(true);
+		initializeButtons();
+		//setVisible(false);
+	}
+	
+	private void initializeButtons() {
+		userDevices.setLayoutX(main.getPrimaryStage().getWidth()-200);
+		userHistory.setLayoutX(userDevices.getLayoutX()-150);
+		userDevices.setDisable(true);
+		userHistory.setDisable(true);
 	}
 
 	private void initializeWorkers() {
 		try {
-			workerNameColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("name"));
-			workerSectionColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("section"));
-			workerJobColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("job"));
-			workerMasterSectionColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("masterSection"));
-			workerRoomColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("room"));
-			workersDataset = (ObservableList<Worker>) DBConnection.initWorkersData();
+			numColumn.setCellValueFactory(new PropertyValueFactory<User, String>("num"));
+			userNameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("userName"));
+			storageColumn.setCellValueFactory(new PropertyValueFactory<User, String>("storage"));
+			personalNumberColumn.setCellValueFactory(new PropertyValueFactory<User, String>("personalNumber"));
+			userDevicesColumn.setCellValueFactory(new PropertyValueFactory<User, String>("userDevices"));
+			workersDataset = (ObservableList<User>) DBConnection.getUserData();
 			workersTable.setItems(workersDataset);
 			workersTable.getSelectionModel().selectedItemProperty()
 					.addListener((observableValue, oldValue, newValue) -> {
 						if (workersTable.getSelectionModel().getSelectedItem() != null) {
-							worker = workersTable.getSelectionModel().getSelectedItem();
-							setDetails();
-							setVisible(true);
+							user = workersTable.getSelectionModel().getSelectedItem();
+							//setDetails();
+							setEnabled();
 						}
 					});
-			setVisible(false);
+			//setVisible(false);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	private void setEnabled() {
+		userDevices.setDisable(false);
+		userHistory.setDisable(false);
+		
+	}
+
 	private void setDetails() {
-		text1.setText(worker.getName());
+	/*	text1.setText(worker.getName());
 		combo1.setValue(worker.getSection().toString());
 		combo2.setValue(worker.getJob().toString());
 		combo3.setValue(worker.getMasterSection().toString());
-		combo4.setValue(worker.getRoom().toString());
+		combo4.setValue(worker.getRoom().toString());*/
 		setHardwareDeviceForWorker();
 	}
 
+	@FXML
+	private void minimalizeFilter(){ 
+		if(minimalize){
+			panel.setPrefHeight(30);
+			plus.setVisible(true);
+			minus.setVisible(false);
+			changeState();
+		}else{
+			panel.setPrefHeight(100);
+			plus.setVisible(false);
+			minus.setVisible(true);
+			changeState();
+		}
+		
+	}
+	
+	private void changeState(){
+		if (minimalize == true){
+			minimalize = false;
+		}else{
+			minimalize = true;
+		}
+	}
+
+	@FXML
+	private void showHardwareDeviceForUser() throws Exception{
+		main.showHardwareDeviceOverviewForUser(user);
+	}
+	
 	private void setHardwareDeviceForWorker() {
 		try {
 			deviceCodeColumn.setCellValueFactory(new PropertyValueFactory<HardwareDevice, String>("code"));
 			deviceTypeColumn.setCellValueFactory(new PropertyValueFactory<HardwareDevice, String>("typeName"));
 			deviceModelColumn.setCellValueFactory(new PropertyValueFactory<HardwareDevice, String>("modelName"));
-			deviceForWorkerDataset = (ObservableList<HardwareDevice>) DBConnection.getHardwareDeviceDataForWorker(worker.getId());
+			deviceForWorkerDataset = null; /*(ObservableList<HardwareDevice>) DBConnection.getHardwareDeviceDataForWorker(worker.getId());*/
 			deviceForWorkerTable.setItems(deviceForWorkerDataset);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,20 +189,8 @@ public class WorkerOverviewController extends BaseController {
 	}
 
 	private void setVisible(boolean visible) {
-		label1.setVisible(visible);
-		label2.setVisible(visible);
-		label4.setVisible(visible);
-		label5.setVisible(visible);
-		label6.setVisible(visible);
-		label7.setVisible(visible);
-		text1.setVisible(visible);
-		combo1.setVisible(visible);
-		combo2.setVisible(visible);
-		combo3.setVisible(visible);
-		combo4.setVisible(visible);
-		btnAccept.setVisible(visible);
-		btnDelete.setVisible(visible);
-		deviceForWorkerTable.setVisible(visible);
+		userDevices.setVisible(visible);
+		userHistory.setVisible(visible);
 	}
 
 	private void initializeBoxes() {
@@ -167,7 +218,7 @@ public class WorkerOverviewController extends BaseController {
 
 	@FXML
 	private void btnAccept() {
-		if (worker != null) {
+		/*if (worker != null) {
 			worker.setName(text1.getText());
 			worker.setSection(Integer.valueOf(combo1.getValue()));
 			worker.setJob(Integer.valueOf(combo2.getValue()));
@@ -186,12 +237,12 @@ public class WorkerOverviewController extends BaseController {
 			}
 
 			reloadTableView();
-		}
+		}*/
 	}
 
 	@FXML
 	private void btnDelete() {
-		if (worker == null) {
+		/*if (worker == null) {
 			Info.createInfo(AlertType.ERROR, main.getPrimaryStage(), "DELETE", "BAD", messages.getSelectworker());
 		} else {
 			if (DBConnection.deleteWorker(this.worker) > 0) {
@@ -199,17 +250,21 @@ public class WorkerOverviewController extends BaseController {
 						messages.getDeleteworker());
 			}
 			reloadTableView();
-		}
+		}*/
 	}
 
 	private void reloadTableView() {
 		try {
-			workersDataset = (ObservableList<Worker>) DBConnection.initWorkersData();
+		/*	workersDataset = (ObservableList<Worker>) DBConnection.initWorkersData();*/
 			workersTable.setItems(workersDataset);
 			clear();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void setMain(Main object) {
+		main = object;
 	}
 }

@@ -8,18 +8,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="address.view.ProfileOverviewController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ithm.view.ProfileOverviewController">
    <children>
       <Label layoutX="14.0" layoutY="14.0" text="Zarządzaj swoim profilem" />
       <Label layoutX="14.0" layoutY="69.0" />
       <Label layoutX="39.0" layoutY="107.0" text="Hasło:" />
       <Label layoutX="40.0" layoutY="61.0" text="Login:" />
       <Label layoutX="41.0" layoutY="149.0" text="Upawnienia:" />
-      <ComboBox layoutX="115.0" layoutY="145.0" prefWidth="150.0" />
-      <TextField layoutX="116.0" layoutY="103.0" />
-      <TextField layoutX="115.0" layoutY="57.0" />
-      <CheckBox layoutX="181.0" layoutY="183.0" mnemonicParsing="false" text="Pokaż hasło" />
+      <ComboBox fx:id="role" layoutX="115.0" layoutY="145.0" prefWidth="150.0" />
+      <TextField fx:id="passwordVisible" layoutX="116.0" layoutY="103.0" />
+      <TextField fx:id="user" layoutX="115.0" layoutY="57.0" />
+      <CheckBox fx:id="visiblePassword" layoutX="181.0" layoutY="183.0" mnemonicParsing="false" onAction="#showPassword" text="Pokaż hasło" />
       <Button layoutX="181.0" layoutY="213.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Zmień hasło" />
+      <PasswordField fx:id="password" layoutX="116.0" layoutY="103.0" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
