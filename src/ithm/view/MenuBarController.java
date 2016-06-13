@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ithm.Main;
+import ithm.model.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -33,12 +34,15 @@ public class MenuBarController {
 	@FXML
 	private Button myProfile;
 	@FXML
+	private Button adminPanel;
+	@FXML
 	private Label userInfo;
 	@FXML
 	private DatePicker calendar;
-	
+
 	private Main main;
 	private List<Button> buttons = new ArrayList<Button>();
+	private Worker loggedWorker;
 
 	public void init() {
 		menuBar.setDisable(true);
@@ -55,6 +59,7 @@ public class MenuBarController {
 		buttons.add(giveDevice);
 		buttons.add(users);
 		buttons.add(myProfile);
+		buttons.add(adminPanel);
 	}
 
 	public MenuBarController() {
@@ -66,8 +71,26 @@ public class MenuBarController {
 	}
 
 	public void setUserInBar() {
-		userInfo.setText("Zalogowano jako: PL/" + main.getLoggedUser().getFirstName() + " " + main.getLoggedUser().getLastName());
+		this.loggedWorker = main.getLoggedUser();
+		userInfo.setText("Zalogowano jako: PL/" + loggedWorker.getFirstName() + " " + loggedWorker.getLastName());
 		userInfo.setDisable(true);
+		switch (loggedWorker.getRoleId()) {
+		case 1:
+			securityForEmployee();
+			break;
+		case 2:
+			securityForHighEmployee();
+			break;
+		case 3:
+			securityForMasterEmployee();
+			break;
+		case 4:
+			securityForAdmin();
+			break;
+		default:
+			securityForEmployee();
+			break;
+		}
 	}
 
 	private void resetOthers(String buttonName) {
@@ -140,6 +163,46 @@ public class MenuBarController {
 		reports.setEffect(shadow);
 		resetOthers("reports");
 		main.showReportOverview();
+	}
+
+	private void securityForEmployee() { // zwyk³y pracownik
+		for (Button button : buttons) {
+			if (button.getId().equals("myDevices") || button.getId().equals("myHistory")
+					|| button.getId().equals("myProfile")) {
+				button.setDisable(false);
+			} else {
+				button.setDisable(true);
+			}
+		}
+
+	}
+
+	private void securityForHighEmployee() { // serwisant SD
+		for (Button button : buttons) {
+			if (button.getId().equals("reports") || button.getId().equals("myDevices")
+					|| button.getId().equals("myHistory") || button.getId().equals("myProfile")) {
+				button.setDisable(false);
+			} else {
+				button.setDisable(true);
+			}
+		}
+
+	}
+
+	private void securityForMasterEmployee() { // kierownik SD
+		for (Button button : buttons) {
+			if (button.getId().equals("adminPanel")) {
+				button.setDisable(true);
+			} else {
+				button.setDisable(false);
+			}
+		}
+	}
+
+	private void securityForAdmin() { // admin
+		for (Button button : buttons) {
+			button.setDisable(false);
+		}
 	}
 
 	public void setMain(Main object) {

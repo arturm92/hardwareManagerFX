@@ -11,8 +11,7 @@ public class Messages {
 	private static final String selectDevice = "Wybierz sprzet do usuniecia";
 	private static final String insertDevice = "Dodano nowy sprzet";
 	private static final String updateDevice = "Zmieniono dane szczególy szpetu";
-	private static final String loginOk = "Zalogowano";
-	private static final String loginError = "Blad logowania";
+	private static final String loginError = "Podaj prawid³owe has³o";
 
 	public String getInsertworker() {
 		return insertWorker;
@@ -32,10 +31,6 @@ public class Messages {
 
 	public String getSelectworker() {
 		return selectWorker;
-	}
-
-	public String getLoginOk() {
-		return loginOk;
 	}
 
 	public String getLoginError() {

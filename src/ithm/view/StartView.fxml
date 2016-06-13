@@ -33,7 +33,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </ComboBox>
-            <PasswordField fx:id="password" layoutX="107.0" layoutY="71.0" prefHeight="25.0" prefWidth="178.0">
+            <PasswordField fx:id="passwordN" layoutX="107.0" layoutY="71.0" prefHeight="25.0" prefWidth="178.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
@@ -48,11 +48,12 @@
                <graphic>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../resources/login.png" />
+                        <Image url="@../resources/login.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
+            <TextField fx:id="passwordY" layoutX="107.0" layoutY="72.0" prefHeight="25.0" prefWidth="177.0" />
          </children>
       </Group>
       <Label layoutX="736.0" layoutY="550.0" text="Label" />
@@ -66,5 +67,10 @@
             <Image url="@../resources/welcome.png" />
          </image>
       </ImageView>
+      <CheckBox fx:id="visiblePassword" layoutX="466.0" layoutY="235.0" mnemonicParsing="false" onAction="#showPassword" prefHeight="17.0" prefWidth="84.0" text="Pokaż hasło">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </CheckBox>
    </children>
 </AnchorPane>

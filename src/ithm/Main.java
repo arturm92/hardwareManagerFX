@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.sql.Connection;
 
 import ithm.dao.DBConnection;
+import ithm.model.HardwareDelivery;
 import ithm.model.HardwareDeviceToGive;
 import ithm.model.User;
 import ithm.model.Worker;
-import ithm.tmp.Person;
 import ithm.view.GetDeliveryOverviewController;
 import ithm.view.GiveDeviceOverviewController;
 import ithm.view.GiveDeviceToUserController;
@@ -16,6 +16,7 @@ import ithm.view.HardwareDeviceOverviewController;
 import ithm.view.HardwareDeviceOverviewControllerForUser;
 import ithm.view.HistoryOverviewController;
 import ithm.view.MenuBarController;
+import ithm.view.NewHardwareDeviceInDeliveryController;
 import ithm.view.ProfileOverviewController;
 import ithm.view.ReportOverviewController;
 import ithm.view.RootLayoutController;
@@ -34,7 +35,6 @@ public class Main extends Application {
 
 	private Stage primaryStage;
 	private SplitPane rootLayout;
-	private ObservableList<Person> personData = FXCollections.observableArrayList();
 	private AnchorPane menuBar;
 	private MenuBarController menuBarController;
 	private Connection conn;
@@ -69,10 +69,6 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-	}
-
-	public ObservableList<Person> getPersonData() {
-		return personData;
 	}
 
 	public void showRootLayout() {
@@ -115,7 +111,8 @@ public class Main extends Application {
 
 	public void loginUser(Worker loggedWorker) {
 		try {
-			loggedUser = loggedWorker;
+			this.loggedUser = loggedWorker;
+			menuBarEnabled();
 			showMyHardwareDeviceOverview();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -226,7 +223,7 @@ public class Main extends Application {
 			GetDeliveryOverviewController controller = loader.getController();
 			rootLayout.getItems().setAll(menuBar, getDeliveryOverview);
 			controller.setMain(this);
-			controller.init();
+			controller.init(loggedUser);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -265,7 +262,6 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/HardwareDeviceOverviewForUser.fxml"));
 			AnchorPane hardwareDeviceOverviewForUser = (AnchorPane) loader.load();
-			menuBarEnabled();
 			rootLayout.getItems().setAll(menuBar, hardwareDeviceOverviewForUser);
 			HardwareDeviceOverviewControllerForUser controller = loader.getController();
 			controller.setMain(this);
@@ -331,6 +327,45 @@ public class Main extends Application {
 
 	public void setConn(Connection conn) {
 		this.conn = conn;
+	}
+
+	public void showNewHardwareDeviceInDelivery(HardwareDelivery delivery , GetDeliveryOverviewController parent) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/NewHardwareDeviceInDelivery.fxml"));
+			AnchorPane newHardwareDeviceInDeliveryController = (AnchorPane) loader.load();
+			NewHardwareDeviceInDeliveryController controller = loader.getController();
+			controller.setMain(this);
+			Stage stage = new Stage();
+			controller.init(parent, delivery.getId(), stage);
+			stage.setTitle("Dodaj urz¹dzenie w dostawie" + delivery.getInvoice() + " od "+ delivery.getCompany());
+			stage.setScene(new Scene(newHardwareDeviceInDeliveryController));
+			stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void showHistoryOverviewForUser(User user) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/HistoryOverview.fxml"));
+			AnchorPane historyOverviewForUser = (AnchorPane) loader.load();
+			HistoryOverviewController controller = loader.getController();
+
+			controller.setMain(this);
+			controller.init(user);
+			
+			Stage stage = new Stage();
+			stage.setTitle("Sprzêt komputerowy nale¿¹cy do " + user.getUserName());
+			stage.setScene(new Scene(historyOverviewForUser));
+			stage.setHeight(600);
+			stage.setWidth(1000);
+			stage.setAlwaysOnTop(true);
+			stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

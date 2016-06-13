@@ -1,32 +1,80 @@
 package ithm.view;
 
 import ithm.Main;
+import ithm.dao.DBConnection;
+import ithm.model.HardwareView;
 import ithm.model.Worker;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ProfileOverviewController {
 	private Main main;
 
 	@FXML
-	private TextField passwordVisible;
+	private TextField passwordY;
 	@FXML
-	private PasswordField password;
+	private PasswordField passwordN;
 	@FXML
-	private TextField user;
+	private TextField newPassword;
+	@FXML
+	private TextField newPassword2;
 	@FXML
 	private CheckBox visiblePassword;
-	@FXML 
-	private ComboBox<String> role;
+	@FXML
+	private TableView<Worker> loggedWorkerTable;
+	@FXML
+	private TableColumn<Worker, String> personalNbColumn;
+	@FXML
+	private TableColumn<Worker, String> userNameColumn;
+	@FXML
+	private TableColumn<Worker, String> emailColumn;
+	@FXML
+	private TableColumn<Worker, String> organisationColumn;
+	@FXML
+	private TableColumn<Worker, String> passwordColumn;
+	@FXML
+	private TableColumn<Worker, String> roleColumn;
+	private Worker worker;
+	private ObservableList<Worker>workerDataset;
 	
 	public void init(Worker worker) {
-		passwordVisible.setText(worker.getPassword());
-		password.setText(worker.getPassword());
-		user.setText(worker.getUserName());
-		role.setValue(String.valueOf(worker.getRoleId()));
+		this.worker = worker;
+		/*passwordVisible.setText(worker.getPassword());
+		password.setText(worker.getPassword());*/
+		initDevices();
+	}
+
+	private void initDevices() {
+		try {
+			userNameColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("userName"));
+			personalNbColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("personalNumber"));
+			emailColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("email"));
+			organisationColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("organisationName"));
+			passwordColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("password"));
+			roleColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("roleName"));
+			if (worker != null) {
+				workerDataset = (ObservableList<Worker>) DBConnection.getLoggedWorker(worker.getPersonalNumber());
+				loggedWorkerTable.setItems(workerDataset);
+				initBoxes();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	
+	private void initBoxes() {
+		showPassword();
 	}
 
 	public void setMain(Main object) {
@@ -36,12 +84,19 @@ public class ProfileOverviewController {
 	@FXML
 	public void showPassword(){
 		if (visiblePassword.isSelected()){
-			password.setVisible(false);
-			passwordVisible.setVisible(true);
+			passwordN.setVisible(false);
+			passwordY.setVisible(true);
+			passwordY.setText(worker.getPassword());
 		}else{
-			password.setVisible(true);
-			passwordVisible.setVisible(false);
+			passwordN.setVisible(true);
+			passwordY.setVisible(false);
+			passwordN.setText(worker.getPassword());
 		}
+		
+	}
+	
+	@FXML
+	private void changePassword(){
 		
 	}
 }

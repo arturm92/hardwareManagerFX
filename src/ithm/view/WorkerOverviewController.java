@@ -1,27 +1,26 @@
 package ithm.view;
 
 import ithm.Main;
+import ithm.component.AutoCompleteComboBoxListener;
 import ithm.dao.DBConnection;
+import ithm.dao.DataSet;
 import ithm.messages.Messages;
+import ithm.model.HardwareDevice;
+import ithm.model.HardwareHistory;
 import ithm.model.User;
 import ithm.model.Worker;
-import ithm.tmp.HardwareDevice;
-import ithm.util.Info;
-import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 public class WorkerOverviewController {
 
@@ -84,28 +83,54 @@ public class WorkerOverviewController {
 	private Button userDevices;
 	@FXML
 	private Button userHistory;
-	
+	@FXML
+	private ComboBox<String> nameInputAuto;
+	@FXML
+	private ComboBox<String> personalInputAuto;
+	@FXML
+	private ComboBox<String> storageInputAuto;
 
 	
 	private ObservableList<User> workersDataset;
 	private ObservableList<HardwareDevice> deviceForWorkerDataset;
+	private AutoCompleteComboBoxListener<String> nameInputAutoListener;
+	private AutoCompleteComboBoxListener<String> personalInputAutoListener;
+	private AutoCompleteComboBoxListener<String> storageInputAutoListener;
 	private Worker worker;
 	private User user;
 	private Messages messages = new Messages();
 	private Main main;
 	private boolean minimalize;
 	
-	public void init() {
+	public void init() throws Exception{
+		initializeBoxes();
 		initializeWorkers();
 		initializeButtons();
-		//setVisible(false);
 	}
 	
+	private void initializeBoxes() throws Exception {
+			ObservableList<String> nameDataSet = DataSet.getUserDataSet();
+			nameInputAuto.setItems(nameDataSet);
+			ObservableList<String> personalDataSet = DataSet.getPersonalNrDataSet();
+			personalInputAuto.setItems(personalDataSet);
+			ObservableList<String> storageDataSet = DataSet.getStorageDataSet();
+			storageInputAuto.setItems(storageDataSet);
+			initAutoComboBoxes();
+	}
+
+	private void initAutoComboBoxes() {
+		nameInputAutoListener = new AutoCompleteComboBoxListener<>(nameInputAuto);
+		personalInputAutoListener = new AutoCompleteComboBoxListener<>(personalInputAuto);
+		storageInputAutoListener = new AutoCompleteComboBoxListener<>(storageInputAuto);
+	}
+
 	private void initializeButtons() {
 		userDevices.setLayoutX(main.getPrimaryStage().getWidth()-200);
 		userHistory.setLayoutX(userDevices.getLayoutX()-150);
 		userDevices.setDisable(true);
 		userHistory.setDisable(true);
+		plus.setVisible(false);
+		minus.setVisible(true);
 	}
 
 	private void initializeWorkers() {
@@ -125,6 +150,18 @@ public class WorkerOverviewController {
 							setEnabled();
 						}
 					});
+			workersTable.getItems().addListener(new ListChangeListener<User>() {
+				  @Override
+				  public void onChanged(ListChangeListener.Change<? extends User> change) {
+					  int i = 1;
+					  for (User user : workersTable.getItems()){
+						  user.setNum(i);
+						  i++;
+					  }
+					  
+				  }
+
+				});
 			//setVisible(false);
 			
 		} catch (Exception e) {
@@ -136,15 +173,6 @@ public class WorkerOverviewController {
 		userDevices.setDisable(false);
 		userHistory.setDisable(false);
 		
-	}
-
-	private void setDetails() {
-	/*	text1.setText(worker.getName());
-		combo1.setValue(worker.getSection().toString());
-		combo2.setValue(worker.getJob().toString());
-		combo3.setValue(worker.getMasterSection().toString());
-		combo4.setValue(worker.getRoom().toString());*/
-		setHardwareDeviceForWorker();
 	}
 
 	@FXML
@@ -175,95 +203,11 @@ public class WorkerOverviewController {
 	private void showHardwareDeviceForUser() throws Exception{
 		main.showHardwareDeviceOverviewForUser(user);
 	}
-	
-	private void setHardwareDeviceForWorker() {
-		try {
-			deviceCodeColumn.setCellValueFactory(new PropertyValueFactory<HardwareDevice, String>("code"));
-			deviceTypeColumn.setCellValueFactory(new PropertyValueFactory<HardwareDevice, String>("typeName"));
-			deviceModelColumn.setCellValueFactory(new PropertyValueFactory<HardwareDevice, String>("modelName"));
-			deviceForWorkerDataset = null; /*(ObservableList<HardwareDevice>) DBConnection.getHardwareDeviceDataForWorker(worker.getId());*/
-			deviceForWorkerTable.setItems(deviceForWorkerDataset);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void setVisible(boolean visible) {
-		userDevices.setVisible(visible);
-		userHistory.setVisible(visible);
-	}
-
-	private void initializeBoxes() {
-		combo1.getItems().addAll("2", "3");
-		combo2.getItems().addAll("1", "2");
-		combo3.getItems().addAll("0", "1");
-		combo4.getItems().addAll("9", "8");
-
-	}
 
 	@FXML
-	private void btnNew() {
-		setVisible(true);
-		worker = new Worker();
-		clear();
+	private void showHardwareHistoryForUser() throws Exception{
+		main.showHistoryOverviewForUser(user);
 	}
-
-	private void clear() {
-		text1.setText("");
-		combo1.setValue("");
-		combo2.setValue("");
-		combo3.setValue("");
-		combo4.setValue("");
-	}
-
-	@FXML
-	private void btnAccept() {
-		/*if (worker != null) {
-			worker.setName(text1.getText());
-			worker.setSection(Integer.valueOf(combo1.getValue()));
-			worker.setJob(Integer.valueOf(combo2.getValue()));
-			worker.setRoom(Integer.valueOf(combo3.getValue()));
-			worker.setMasterSection(Integer.valueOf(combo4.getValue()));
-			if (worker.getId() != null){
-				if (DBConnection.updateWorker(worker) > 0) {
-					Info.createInfo(AlertType.INFORMATION, main.getPrimaryStage(), "UPDATE", "GOOD",
-							messages.getUpadteworker());
-				}
-			}else{
-				if (DBConnection.insertWorker(worker) > 0) {
-					Info.createInfo(AlertType.INFORMATION, main.getPrimaryStage(), "INSERT", "GOOD",
-							messages.getInsertworker());
-				}
-			}
-
-			reloadTableView();
-		}*/
-	}
-
-	@FXML
-	private void btnDelete() {
-		/*if (worker == null) {
-			Info.createInfo(AlertType.ERROR, main.getPrimaryStage(), "DELETE", "BAD", messages.getSelectworker());
-		} else {
-			if (DBConnection.deleteWorker(this.worker) > 0) {
-				Info.createInfo(AlertType.INFORMATION, main.getPrimaryStage(), "DELETE", "GOOD",
-						messages.getDeleteworker());
-			}
-			reloadTableView();
-		}*/
-	}
-
-	private void reloadTableView() {
-		try {
-		/*	workersDataset = (ObservableList<Worker>) DBConnection.initWorkersData();*/
-			workersTable.setItems(workersDataset);
-			clear();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	public void setMain(Main object) {
 		main = object;
 	}
