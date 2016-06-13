@@ -164,6 +164,14 @@ public class MenuBarController {
 		resetOthers("reports");
 		main.showReportOverview();
 	}
+	
+	@FXML
+	public void goToAdminPanel() {
+		DropShadow shadow = new DropShadow();
+		reports.setEffect(shadow);
+		resetOthers("adminPanel");
+		main.showAdminPanel();
+	}
 
 	private void securityForEmployee() { // zwyk³y pracownik
 		for (Button button : buttons) {

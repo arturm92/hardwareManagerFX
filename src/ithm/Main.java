@@ -9,6 +9,7 @@ import ithm.model.HardwareDelivery;
 import ithm.model.HardwareDeviceToGive;
 import ithm.model.User;
 import ithm.model.Worker;
+import ithm.view.AdminPanelController;
 import ithm.view.GetDeliveryOverviewController;
 import ithm.view.GiveDeviceOverviewController;
 import ithm.view.GiveDeviceToUserController;
@@ -363,6 +364,22 @@ public class Main extends Application {
 			stage.setWidth(1000);
 			stage.setAlwaysOnTop(true);
 			stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void showAdminPanel() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/AdminPanel.fxml"));
+			AnchorPane adminPanel = (AnchorPane) loader.load();
+			rootLayout.getItems().setAll(menuBar, adminPanel);
+			AdminPanelController controller = loader.getController();
+
+			controller.setMain(this);
+			controller.init(loggedUser);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

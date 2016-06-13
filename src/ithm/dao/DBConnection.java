@@ -13,6 +13,8 @@ import ithm.model.HardwareDeviceDelivery;
 import ithm.model.HardwareDeviceToGive;
 import ithm.model.HardwareHistory;
 import ithm.model.HardwareView;
+import ithm.model.Role;
+import ithm.model.Storage;
 import ithm.model.User;
 import ithm.model.Worker;
 import javafx.collections.FXCollections;
@@ -36,7 +38,6 @@ public class DBConnection {
 			return con;
 		}
 	}
-
 
 	public static ObservableList<HardwareView> getHardwareDeviceData() throws Exception {
 		ObservableList<HardwareView> returnList = FXCollections.observableArrayList();
@@ -142,6 +143,20 @@ public class DBConnection {
 			worker.setPersonalNumber(rs.getString("personalNb"));
 			worker.setRoleId(rs.getInt("roleId"));
 			worker.setOrganisationId(rs.getInt("organizationId"));
+			worker.setuName(rs.getString("username"));
+			String query2 = "Select name from Organization where Id=" + rs.getInt("organizationId");
+			Statement stmt2 = con.createStatement();
+			ResultSet rs2 = stmt2.executeQuery(query2);
+			if (rs2.next()) {
+				worker.setOrganisationName(rs2.getString("name"));
+			}
+
+			String query3 = "Select rola from Rola where Id=" + rs.getInt("roleId");
+			Statement stmt3 = con.createStatement();
+			ResultSet rs3 = stmt3.executeQuery(query3);
+			if (rs3.next()) {
+				worker.setRoleName(rs3.getString("rola"));
+			}
 			returnList.add(worker);
 		}
 		return returnList;
@@ -156,7 +171,7 @@ public class DBConnection {
 		String query = "SELECT * FROM Employee where personalNb ='" + personalNumber + "'";
 		ResultSet rs = stmt.executeQuery(query);
 		while (rs.next()) {
-			worker= new Worker();
+			worker = new Worker();
 			worker.setId(rs.getInt("id"));
 			worker.setFirstName(rs.getString("firstName"));
 			worker.setLastName(rs.getString("lastName"));
@@ -165,6 +180,20 @@ public class DBConnection {
 			worker.setPersonalNumber(rs.getString("personalNb"));
 			worker.setRoleId(rs.getInt("roleId"));
 			worker.setOrganisationId(rs.getInt("organizationId"));
+			worker.setuName(rs.getString("username"));
+			String query2 = "Select name from Organization where Id=" + rs.getInt("organizationId");
+			Statement stmt2 = con.createStatement();
+			ResultSet rs2 = stmt2.executeQuery(query2);
+			if (rs2.next()) {
+				worker.setOrganisationName(rs2.getString("name"));
+			}
+
+			String query3 = "Select rola from Rola where Id=" + rs.getInt("roleId");
+			Statement stmt3 = con.createStatement();
+			ResultSet rs3 = stmt3.executeQuery(query3);
+			if (rs3.next()) {
+				worker.setRoleName(rs3.getString("rola"));
+			}
 			return worker;
 		}
 		return null;
@@ -187,7 +216,7 @@ public class DBConnection {
 			worker.setPassword(rs.getString("password"));
 			worker.setPersonalNumber(rs.getString("personalNb"));
 			worker.setRoleId(rs.getInt("roleId"));
-
+			worker.setuName(rs.getString("username"));
 			String query2 = "Select name from Organization where Id=" + rs.getInt("organizationId");
 			Statement stmt2 = con.createStatement();
 			ResultSet rs2 = stmt2.executeQuery(query2);
@@ -673,8 +702,8 @@ public class DBConnection {
 
 			Statement stmt = con.createStatement();
 			query = "INSERT INTO `delivery`(`Date`, `Invoice`, `Company`, `ModUser`, `ModDate`) "
-					+ "VALUES (STR_TO_DATE('" + date + "','%Y%m%d %H%i'),'" + delivery.getInvoice() + "','" + delivery.getCompany() + "'," + userId
-					+ ",STR_TO_DATE('" + date + "','%Y%m%d %H%i'))";
+					+ "VALUES (STR_TO_DATE('" + date + "','%Y%m%d %H%i'),'" + delivery.getInvoice() + "','"
+					+ delivery.getCompany() + "'," + userId + ",STR_TO_DATE('" + date + "','%Y%m%d %H%i'))";
 
 			int rs = stmt.executeUpdate(query);
 			if (rs > 0) {
@@ -790,7 +819,7 @@ public class DBConnection {
 				lastInternalNumber = "PL-" + typeName.substring(0, 3).toUpperCase() + "0000";
 			}
 			String[] editInternal = lastInternalNumber.split("-");
-			editInternal[0] = 	editInternal[0] + "-" + editInternal[1].substring(0, 3);
+			editInternal[0] = editInternal[0] + "-" + editInternal[1].substring(0, 3);
 			editInternal[1] = editInternal[1].substring(3);
 			int number = 1000 * Integer.parseInt(editInternal[1].substring(0, 1))
 					+ 100 * Integer.parseInt(editInternal[1].substring(1, 2))
@@ -939,8 +968,9 @@ public class DBConnection {
 			int userId = Integer.valueOf(userInfo[0]);
 
 			Statement stmt = con.createStatement();
-			query = "UPDATE `delivery` SET `Invoice`='" + delivery.getInvoice() + "', `Company`='" + delivery.getCompany() + "', `ModUser`="
-					+ userId + ", `ModDate`=STR_TO_DATE('" + date + "','%Y%m%d %H%i') where id="+delivery.getId();
+			query = "UPDATE `delivery` SET `Invoice`='" + delivery.getInvoice() + "', `Company`='"
+					+ delivery.getCompany() + "', `ModUser`=" + userId + ", `ModDate`=STR_TO_DATE('" + date
+					+ "','%Y%m%d %H%i') where id=" + delivery.getId();
 
 			int rs = stmt.executeUpdate(query);
 			if (rs > 0) {
@@ -955,8 +985,8 @@ public class DBConnection {
 
 	}
 
-
-	public static ObservableList<HardwareDeviceDelivery> getDeliveryDevicesDataFiltered(int deliveryId, String where) throws Exception {
+	public static ObservableList<HardwareDeviceDelivery> getDeliveryDevicesDataFiltered(int deliveryId, String where)
+			throws Exception {
 		ObservableList<HardwareDeviceDelivery> returnList = FXCollections.observableArrayList();
 		if (con == null) {
 			con = createConnection();
@@ -988,6 +1018,130 @@ public class DBConnection {
 			returnList.add(item);
 		}
 		return returnList;
+	}
+
+	public static ObservableList<Role> getRole() throws Exception {
+		ObservableList<Role> returnList = FXCollections.observableArrayList();
+		if (con == null) {
+			con = createConnection();
+		}
+		Statement stmt = con.createStatement();
+		String query = "SELECT id , `Rola` FROM `rola`";
+		ResultSet rs = stmt.executeQuery(query);
+		while (rs.next()) {
+			Role role = new Role();
+			role.setId(Integer.parseInt(rs.getString(1)));
+			role.setRoleName(rs.getString(2));
+			returnList.add(role);
+		}
+		return returnList;
+	}
+
+	public static int changeRoleForUser(Worker user, Role role) {
+		try {
+			if (con == null) {
+				con = createConnection();
+			}
+			Statement stmt = con.createStatement();
+			String query = "UPDATE `employee` SET `RoleId`=" + role.getId() + " WHERE personalNb="
+					+ user.getPersonalNumber();
+			int rs = stmt.executeUpdate(query);
+			if (rs > 0) {
+				return 1;
+			} else {
+				return 0;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public static ObservableList<Storage> getStorage() {
+		try {
+			ObservableList<Storage> returnList = FXCollections.observableArrayList();
+			if (con == null) {
+				con = createConnection();
+			}
+			Statement stmt = con.createStatement();
+			String query = "SELECT `Id`, `Name` FROM `organization`";
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				Storage store = new Storage();
+				store.setId(Integer.parseInt(rs.getString(1)));
+				store.setName(rs.getString(2));
+				returnList.add(store);
+			}
+			return returnList;
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+
+	public static String getNextPersonalNumber() {
+		try {
+			String personalNumberStr = null;
+			if (con == null) {
+				con = createConnection();
+			}
+			Statement stmt = con.createStatement();
+			String query = "SELECT max(`PersonalNb`)FROM `employee`";
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				personalNumberStr = rs.getString(1);
+			}
+			int personalNb = Integer.parseInt(personalNumberStr);
+			personalNb += 1;
+			personalNumberStr = String.valueOf(personalNb);
+			return personalNumberStr;
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+
+	public static int insertUser(Worker worker) {
+		try {
+			if (con == null) {
+				con = createConnection();
+			}
+			Statement stmt = con.createStatement();
+			String query = "INSERT INTO `employee` (`FirstName`, `LastName`, `OrganizationId`, "
+					+ "`PersonalNb`, `Password`, `RoleId`,`Username`) VALUES ('"+worker.getFirstName()+
+					"','"+worker.getLastName()+"','"+worker.getOrganisationId()+"','"+worker.getPersonalNumber()+
+					"','"+worker.getPassword()+"',"+worker.getRoleId()+",'"+worker.getuName()+"')";
+			int rs = stmt.executeUpdate(query);
+			if (rs > 0) {
+				return 1;
+			} else {
+				return 0;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+
+	}
+
+	public static int updatePassword(Worker worker, String newPassword) {
+	
+				try {
+					if (con == null) {
+						con = createConnection();
+					}
+					Statement stmt = con.createStatement();
+					String query = "UPDATE `employee` SET `Password`='"+newPassword+"' WHERE `PersonalNb` = "+worker.getPersonalNumber();
+					int rs = stmt.executeUpdate(query);
+					if (rs > 0) {
+						return 1;
+					} else {
+						return 0;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return 0;
 	}
 
 }

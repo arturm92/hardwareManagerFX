@@ -4,6 +4,9 @@ import ithm.Main;
 import ithm.dao.DBConnection;
 import ithm.model.HardwareView;
 import ithm.model.Worker;
+import ithm.util.EmptyFieldException;
+import ithm.util.Info;
+import ithm.util.Validator;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -12,6 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ProfileOverviewController {
@@ -42,17 +46,18 @@ public class ProfileOverviewController {
 	@FXML
 	private TableColumn<Worker, String> roleColumn;
 	private Worker worker;
-	private ObservableList<Worker>workerDataset;
-	
+	private ObservableList<Worker> workerDataset;
+	private Validator validator = new Validator();
+
 	public void init(Worker worker) {
 		this.worker = worker;
-		/*passwordVisible.setText(worker.getPassword());
-		password.setText(worker.getPassword());*/
 		initDevices();
 	}
 
 	private void initDevices() {
 		try {
+			newPassword.setUserData("Nowe has³o");
+			newPassword2.setUserData("Powtórz has³o");
 			userNameColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("userName"));
 			personalNbColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("personalNumber"));
 			emailColumn.setCellValueFactory(new PropertyValueFactory<Worker, String>("email"));
@@ -64,15 +69,12 @@ public class ProfileOverviewController {
 				loggedWorkerTable.setItems(workerDataset);
 				initBoxes();
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
-	
-	
+
 	private void initBoxes() {
 		showPassword();
 	}
@@ -80,23 +82,36 @@ public class ProfileOverviewController {
 	public void setMain(Main object) {
 		main = object;
 	}
-	
+
 	@FXML
-	public void showPassword(){
-		if (visiblePassword.isSelected()){
+	public void showPassword() {
+		if (visiblePassword.isSelected()) {
 			passwordN.setVisible(false);
 			passwordY.setVisible(true);
 			passwordY.setText(worker.getPassword());
-		}else{
+		} else {
 			passwordN.setVisible(true);
 			passwordY.setVisible(false);
 			passwordN.setText(worker.getPassword());
 		}
-		
+
 	}
-	
+
 	@FXML
-	private void changePassword(){
-		
+	private void changePassword() {
+		try {
+			validator.checkField(newPassword);
+			validator.checkField(newPassword2);
+			if (newPassword.getText().equals(newPassword2.getText())) {
+				if(DBConnection.updatePassword(worker, newPassword.getText())>0){
+					Info.createInfo(AlertType.INFORMATION, main.getPrimaryStage(), "Has³a zosta³o zmienione", null,null);
+				}
+			}else{
+				Info.createInfo(AlertType.WARNING, main.getPrimaryStage(), "Has³a nie s¹ zgodne", "Podane has³a musz¹ byæ takie same ",null);
+			}
+		} catch (EmptyFieldException e) {
+
+		}
+
 	}
 }
